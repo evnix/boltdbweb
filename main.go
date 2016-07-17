@@ -6,18 +6,30 @@ import "github.com/evnix/boltdb-browser/web"
 import ("fmt"
 		log "github.com/Sirupsen/logrus"
 		 "github.com/boltdb/bolt"
-		)
+		 "os")		
 
 var db *bolt.DB
 
 func main() {
 
 	fmt.Print(" ")
-	log.Info("starting Ashtra...")
+	log.Info("starting boltdb-browser...")
+
+	if(len(os.Args)<2){
+
+		fmt.Println("Usage: "+os.Args[0]+" <DBfilename>[required] <port>[optional]")
+		os.Exit(0)
+	}
+
 	var err error
-	db,err=bolt.Open("ashtra.db", 0600, nil)
+	db,err=bolt.Open(os.Args[1], 0600, nil)
 	boltbrowserweb.Db=db
-	err=err
+	
+	if(err!=nil){
+
+		fmt.Println(err)
+		os.Exit(0)
+	}
 
 
 	r := gin.Default()
@@ -40,8 +52,14 @@ func main() {
 
     r.Static("/web", "./web")
 
+    port:="8080";
 
-    r.Run()
+    if(len(os.Args)>2){
+
+    	port=os.Args[2]
+    }
+
+    r.Run(":"+port)
 
 
 }

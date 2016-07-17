@@ -4,19 +4,15 @@
         <title>BoltDB-Browser</title>
 <link rel="stylesheet" href="/web/css/uikit.min.css" />
 <link rel="stylesheet" href="/web/css/uikit.almost-flat.min.css" />
-<script
-			  src="https://code.jquery.com/jquery-2.2.3.min.js"
-			
-			  crossorigin="anonymous"></script>
+<script src="/web/js//jquery-2.2.3.min.js"></script>
 <script src="/web/js/uikit.min.js"></script>
 <script src="/web/js/navigo.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.2.1/mustache.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+<script type="text/javascript" src="/web/js/4.0.5_handlebars.min.js"></script>
     </head>
     <body>
 
 
-        <div class="uk-container uk-container-center uk-margin-top uk-margin-large-bottom">
+        <div class="uk-container uk-container-center uk-margin-top uk-margin-small-bottom">
             <nav class="uk-navbar uk-margin-large-bottom">
                 <a class="uk-navbar-brand uk-hidden-small" href="/">BoltDB-Browser</a>
                 <ul class="uk-navbar-nav uk-hidden-small">
@@ -106,7 +102,7 @@
 
             <div class="uk-vertical-align uk-text-center uk-height-1-1">
             <div class="uk-vertical-align-middle" style="height:400px;width:500px; background:#f3f3f3;overflow: scroll; text-align:left"   id="log">
-            Log: <br/>[0999] Made in Dublin with lots of &#10084;
+            Log: <br/>[0999] Made in Dublin with lots of &#10084; by <a href="https://ie.linkedin.com/in/avinashdsilva" target="_blank">Avi</a>
     
             </div>
             </div>
@@ -145,6 +141,7 @@
         <tr>
             <th>Key</th>
             <th>Value</th>
+            <th>Edit</th>
             <th>Delete</th>
         </tr>
     </thead>
@@ -154,6 +151,7 @@
         <tr>
             <td> {{@key}} </td> 
             <td> {{this}}</td>
+            <td> <a onclick="doEdit('{{@key}}')">[Edit]</a> </td>
             <td> <a onclick="doDelete('{{@key}}')">[x]</a> </td>
         </tr>
    {{/each}}
@@ -223,6 +221,19 @@ function doDelete(key){
 }
 
 
+function doEdit(key){
+
+    b = $('#pbucket').val();
+    getRequest(b,key);
+
+    $('#bucket').val(b);
+    $('#key').val(key);
+    router.navigate('#/');
+
+
+}
+
+
 
 function doPrefixScan(bucket){
 
@@ -248,8 +259,14 @@ function log(text){
 
 function get(){
 
+    getRequest($('#bucket').val(),$('#key').val());
 
-  $.post("/get",{bucket:$('#bucket').val(),key:$('#key').val()},function(data){
+
+}
+
+function getRequest(bucket,key){
+
+  $.post("/get",{bucket:bucket,key:key},function(data){
 
   
     log(data)
@@ -326,14 +343,14 @@ var template = Handlebars.compile(source);
 
 
 function loadBucketTable() {
-  var template = $('#template').html();
-  Mustache.parse(template);   // optional, speeds up future uses
+    var source = $('#template').html();
+    var template = Handlebars.compile(source);
 
   $.get("/buckets",{},function(data){
 
   
-    var rendered = Mustache.render(template, {list: data});
-    $('#data').html(rendered)
+    var html    = template({list: data});
+    $('#data').html(html)
 
   });
   
