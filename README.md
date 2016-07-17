@@ -1,2 +1,2 @@
-# boltdb-browser
+# boltdbweb
 a simple boltdb browser
