@@ -31,6 +31,11 @@ func main() {
 
     r.GET("/buckets", boltbrowserweb.Buckets)
     r.POST("/createBucket", boltbrowserweb.CreateBucket)
+    r.POST("/put", boltbrowserweb.Put)
+    r.POST("/get", boltbrowserweb.Get)
+    r.POST("/deleteKey", boltbrowserweb.DeleteKey)
+    r.POST("/deleteBucket", boltbrowserweb.DeleteBucket)
+    r.POST("/prefixScan", boltbrowserweb.PrefixScan)
 
 
     r.Static("/web", "./web")

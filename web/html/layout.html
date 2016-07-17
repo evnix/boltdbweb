@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Ashtra</title>
+        <title>BoltDB-Browser</title>
 <link rel="stylesheet" href="/web/css/uikit.min.css" />
 <link rel="stylesheet" href="/web/css/uikit.almost-flat.min.css" />
 <script
@@ -9,33 +9,27 @@
 			
 			  crossorigin="anonymous"></script>
 <script src="/web/js/uikit.min.js"></script>
+<script src="/web/js/navigo.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.2.1/mustache.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
     </head>
     <body>
 
 
         <div class="uk-container uk-container-center uk-margin-top uk-margin-large-bottom">
             <nav class="uk-navbar uk-margin-large-bottom">
-                <a class="uk-navbar-brand uk-hidden-small" href="layouts_frontpage.html">Ashtra</a>
+                <a class="uk-navbar-brand uk-hidden-small" href="/">BoltDB-Browser</a>
                 <ul class="uk-navbar-nav uk-hidden-small">
-                    <li class="uk-active">
-                        <a href="layouts_frontpage.html">Frontpage</a>
+                    <li>
+                        <a href="/">Form</a>
                     </li>
                     <li>
-                        <a href="layouts_portfolio.html">Portfolio</a>
+                        <a href="#/buckets">Buckets</a>
                     </li>
                     <li>
-                        <a href="layouts_blog.html">Blog</a>
+                        <a href="#/prefixScan">Prefix Scan</a>
                     </li>
-                    <li>
-                        <a href="layouts_documentation.html">Documentation</a>
-                    </li>
-                    <li>
-                        <a href="layouts_contact.html">Contact</a>
-                    </li>
-                    <li>
-                        <a href="layouts_login.html">Login</a>
-                    </li>
+            
                 </ul>
                 <a href="#offcanvas" class="uk-navbar-toggle uk-visible-small" data-uk-offcanvas></a>
                 <div class="uk-navbar-brand uk-navbar-center uk-visible-small">Brand</div>
@@ -44,25 +38,82 @@
 
 
 
-           <div class="uk-vertical-align uk-text-center uk-height-1-1">
-            <div class="uk-vertical-align-middle" style="width: 250px;">
-
-                <img class="uk-margin-bottom" width="140" height="120" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNi4wLjQsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkViZW5lXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB3aWR0aD0iMTQwcHgiIGhlaWdodD0iMTIwcHgiIHZpZXdCb3g9Ii0yOS41IDI3NS41IDE0MCAxMjAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgLTI5LjUgMjc1LjUgMTQwIDEyMCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8ZyBvcGFjaXR5PSIwLjciPg0KCTxwYXRoIGZpbGw9IiNEOEQ4RDgiIGQ9Ik0tNi4zMzMsMjk4LjY1NHY3My42OTFoOTMuNjY3di03My42OTFILTYuMzMzeiBNNzkuNzg4LDM2NC4zNTVIMS42NTZ2LTU3LjcwOWg3OC4xMzJWMzY0LjM1NXoiLz4NCgk8cG9seWdvbiBmaWxsPSIjRDhEOEQ4IiBwb2ludHM9IjUuODYsMzU4LjE0MSAyMS45NjIsMzQxLjIxNiAyNy45OTUsMzQzLjgyNyA0Ny4wMzIsMzIzLjU2MSA1NC41MjQsMzMyLjUyMyA1Ny45MDUsMzMwLjQ4IA0KCQk3Ni4yMDMsMzU4LjE0MSAJIi8+DQoJPGNpcmNsZSBmaWxsPSIjRDhEOEQ4IiBjeD0iMjQuNDYyIiBjeT0iMzIxLjMyMSIgcj0iNy4wMzQiLz4NCjwvZz4NCjwvc3ZnPg0K" alt="">
+           
 
 
-
+            <div class="uk-vertical-align uk-text-center uk-height-1-1" id="pg1">
+            <div class="uk-vertical-align-middle" style="width: 600px;"   id="dfata">
+                <form class="uk-panel uk-panel-box uk-form">
+                    <div class="uk-form-row">
+                        <input class="uk-width-1-1 uk-form-large" type="text" id="bucket" placeholder="Bucket name">
+                    </div>
+                    <div class="uk-form-row">
+                        <input class="uk-width-1-1 uk-form-large" type="text" id="key" placeholder="Key">
+                    </div>
+                    <div class="uk-form-row">
+                        <textarea class="uk-width-1-1 uk-form-large" type="text" id="value" placeholder="value"></textarea>
+                    </div>
+                    <div class="uk-form-row">
+                        <a class="uk-width-1-1 uk-button uk-button-primary uk-button-small" onclick="get()">Get</a>
+                    </div>
+                    <div class="uk-form-row">
+                        <a class="uk-width-1-1 uk-button uk-button-primary uk-button-small" onclick="put()">Put</a>
+                    </div>
+                    <div class="uk-form-row">
+                        <a class="uk-width-1-1 uk-button uk-button-primary uk-button-small" onclick="deleteKey()">Delete key</a>
+                    </div>
+                    <div class="uk-form-row">
+                        <a class="uk-width-1-1 uk-button uk-button-primary uk-button-small" onclick="deleteBucket()">Delete Bucket</a>
+                    </div>
+                    
+                </form>
+        
+            </div>
             </div>
 
 
-           
-        </div>
 
-                   <div class="uk-vertical-align uk-text-center uk-height-1-1">
-            <div class="uk-vertical-align-middle" style="width: 250px;"   id="data">
+            <div class="uk-vertical-align uk-text-center uk-height-1-1" id="pg2">
+            <div class="uk-vertical-align-middle" style="width: 250px;text-align:left"   id="data">
 
     
             </div>
             </div>
+
+
+
+            <div class="uk-vertical-align uk-text-center  " id="pg3">
+                <div class="uk-vertical-align-middle uk-grid" style="width: 600px;text-align:left"   id="d">
+                 
+                    
+                        <div class="uk-width-1-3"> <input class="uk-form-small" type="text" id="pbucket" placeholder="Bucket name"></div>
+                        <div class="uk-width-1-3">  <input class="uk-form-small" type="text" id="pkey" placeholder="Key Prefix"></div>
+                        <div class="uk-width-1-3">  <a class="uk-width-1-1 uk-button uk-button-primary uk-button-large" onclick="prefixScan()">List</a></div>
+                   
+                  
+                </div>
+
+                <br/><br/>
+                <div class="uk-vertical-align-middle" style="width: 500px;text-align:left"   id="pfs">
+
+        
+                </div>
+            </div>
+
+
+            <br>
+            <br>
+
+            <div class="uk-vertical-align uk-text-center uk-height-1-1">
+            <div class="uk-vertical-align-middle" style="height:400px;width:500px; background:#f3f3f3;overflow: scroll; text-align:left"   id="log">
+            Log: <br/>[0999] Made in Dublin with lots of &#10084;
+    
+            </div>
+            </div>
+
+            <br/>
+            <br/>
+
 
     </body>
 
@@ -72,22 +123,206 @@
     
     <thead>
         <tr>
-            <th>Bucket Name</th>
+            <th>Bucket Names</th>
         </tr>
     </thead>
 
     <tbody>
     {{#list}}
         <tr>
-            <td> {{.}} </td>
+            <td> <a onclick="doPrefixScan('{{.}}')">{{.}}</a> </td>
         </tr>
     {{/list}}
     </tbody>
 </table>
 </script>
 
+
+<script id="exploretpl" type="x-tmpl-mustache">
+    <table class="uk-table">
+    
+    <thead>
+        <tr>
+            <th>Key</th>
+            <th>Value</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+
+    <tbody>
+    {{#each list}}
+        <tr>
+            <td> {{@key}} </td> 
+            <td> {{this}}</td>
+            <td> <a onclick="doDelete('{{@key}}')">[x]</a> </td>
+        </tr>
+   {{/each}}
+    </tbody>
+</table>
+</script>
+
 <script>
 
+logid=1000
+var router = new Navigo();
+
+router.on('/buckets', function () {
+ 
+    $('#pg1').hide();
+    $('#pg3').hide();
+    $('#pg2').show()
+
+});
+
+
+
+router.on('/prefixScan', function () {
+ 
+    $('#pg1').hide();
+    $('#pg2').hide();
+    $('#pg3').show()
+
+});
+
+
+router.on('/', function () {
+ 
+    $('#pg2').hide();
+    $('#pg3').hide();
+    $('#pg1').show()
+
+});
+
+router.on(function() {
+  // ... all the urls end here
+      $('#pg2').hide();
+      $('#pg3').hide();
+    
+  console.log("default route:no other routes matched.")
+});
+
+router.resolve();
+
+
+function doDelete(key){
+
+
+    var r = confirm("Delete?");
+
+    if (r == true) {
+            
+            b = $('#pbucket').val();
+            deleteKeyReq(b,key);
+            window.setTimeout(prefixScan, 1000);
+            
+    }
+
+
+
+
+}
+
+
+
+function doPrefixScan(bucket){
+
+    $('#pbucket').val(bucket);
+    $('#pkey').val("");
+
+    prefixScan()
+
+    router.navigate('#/prefixScan');
+
+}
+
+function log(text){
+
+    console.log(text)
+    $('#log').append("<br/>["+logid+"] "+ JSON.stringify(text))
+
+    logid++
+    $('#log').scrollTop($('#log')[0].scrollHeight - $('#log')[0].clientHeight);
+
+}
+
+
+function get(){
+
+
+  $.post("/get",{bucket:$('#bucket').val(),key:$('#key').val()},function(data){
+
+  
+    log(data)
+
+    if(data[0]=="ok"){
+
+        $('#value').val(data[1])
+    }
+
+  });
+
+}
+
+function deleteBucket(){
+
+
+  $.post("/deleteBucket",{bucket:$('#bucket').val()},function(data){
+
+  
+    log(data)
+
+  });
+
+}
+
+function deleteKey(){
+
+
+    deleteKeyReq($('#bucket').val(),$('#key').val());
+
+}
+
+
+function deleteKeyReq(bucket,key){
+
+  $.post("/deleteKey",{bucket:bucket,key:key},function(data){
+
+  
+    log(data)
+
+  });
+
+}
+
+function put(){
+
+      $.post("/put",{bucket:$('#bucket').val(),key:$('#key').val(),value:$('#value').val()},function(data){
+
+  
+        log(data)
+
+    });
+
+}
+
+
+function prefixScan() {
+
+  $('#pfs').html("")
+  var source = $('#exploretpl').html();
+var template = Handlebars.compile(source);
+
+  $.post("/prefixScan",{bucket:$('#pbucket').val(),key:$('#pkey').val()},function(data){
+
+    log(data)
+    //var rendered = Mustache.render(template, {list: data.M});
+    var html    = template({list: data.M});
+    $('#pfs').html(html)
+
+  });
+  
+  
+}
 
 
 function loadBucketTable() {
