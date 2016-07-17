@@ -1,7 +1,7 @@
 package main
 
 import "github.com/gin-gonic/gin"
-import "github.com/evnix/boltdb-browser/web"
+import "github.com/evnix/boltdbweb/web"
 
 import ("fmt"
 		log "github.com/Sirupsen/logrus"
