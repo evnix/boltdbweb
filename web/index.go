@@ -169,7 +169,6 @@ func Get(c *gin.Context) {
 	
 }
 
-
 type Result struct {
     Result string
     M map[string]string

@@ -13,7 +13,7 @@ var db *bolt.DB
 func main() {
 
 	fmt.Print(" ")
-	log.Info("starting boltdb-browser...")
+	log.Info("starting boltdb-browser..")
 
 	if(len(os.Args)<2){
 
@@ -30,7 +30,7 @@ func main() {
 		fmt.Println(err)
 		os.Exit(0)
 	}
-
+ 
 
 	r := gin.Default()
     r.GET("/ping", func(c *gin.Context) {
