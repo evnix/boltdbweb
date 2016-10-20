@@ -1,30 +1,40 @@
 package main
 
-import "github.com/gin-gonic/gin"
-import "github.com/evnix/boltdbweb/web"
-
 import (
-	"fmt"
-	log "github.com/Sirupsen/logrus"
-	"github.com/boltdb/bolt"
-	"os"
+	"github.com/evnix/boltdbweb/web"
+	"github.com/gin-gonic/gin"
 )
 
-var db *bolt.DB
+import (
+	"flag"
+	"fmt"
+	"os"
+
+	log "github.com/Sirupsen/logrus"
+	"github.com/boltdb/bolt"
+)
+
+var (
+	db         *bolt.DB
+	dbName     = flag.String("db-name", "", "Name of the database")
+	port       = flag.String("port", "8080", "Port for the web-ui")
+	staticPath = flag.String("static-path", ".", "Path for the static content")
+)
 
 func main() {
+	flag.Parse()
 
 	fmt.Print(" ")
 	log.Info("starting boltdb-browser..")
 
-	if len(os.Args) < 2 {
+	if dbName == nil {
 
-		fmt.Println("Usage: " + os.Args[0] + " <DBfilename>[required] <port>[optional]")
+		fmt.Println("Usage: " + os.Args[0] + " --db-name=<DBfilename>[required] --port=<port>[optional] --static-path=<static-path>[optional]")
 		os.Exit(0)
 	}
 
 	var err error
-	db, err = bolt.Open(os.Args[1], 0600, nil)
+	db, err = bolt.Open(*dbName, 0600, nil)
 	boltbrowserweb.Db = db
 
 	if err != nil {
@@ -50,15 +60,8 @@ func main() {
 	r.POST("/deleteBucket", boltbrowserweb.DeleteBucket)
 	r.POST("/prefixScan", boltbrowserweb.PrefixScan)
 
-	r.Static("/web", "./web")
+	r.Static("/web", *staticPath+"/web")
 
-	port := "8080"
-
-	if len(os.Args) > 2 {
-
-		port = os.Args[2]
-	}
-
-	r.Run(":" + port)
+	r.Run(":" + *port)
 
 }
