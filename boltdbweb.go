@@ -75,21 +75,22 @@ func main() {
 		os.Exit(0)
 	}
 
-	fmt.Print(" ")
-	log.Info("starting boltdb-browser..")
-
 	// If non-flag options are included assume bolt db is specified.
-	if dbName == nil && len(args) > 0 {
+	if len(args) > 0 {
 		dbName = args[0]
 	}
 
-	if dbName == nil {
+	if dbName == "" {
 		usage(appName, version)
+		log.Printf("\nERROR: Missing boltdb name\n")
 		os.Exit(1)
 	}
 
+	fmt.Print(" ")
+	log.Info("starting boltdb-browser..")
+
 	var err error
-	db, err = bolt.Open(*dbName, 0600, nil)
+	db, err = bolt.Open(dbName, 0600, nil)
 	boltbrowserweb.Db = db
 
 	if err != nil {
@@ -115,7 +116,7 @@ func main() {
 	r.POST("/deleteBucket", boltbrowserweb.DeleteBucket)
 	r.POST("/prefixScan", boltbrowserweb.PrefixScan)
 
-	r.Static("/web", *staticPath+"/web")
+	r.Static("/web", staticPath+"/web")
 
-	r.Run(":" + *port)
+	r.Run(":" + port)
 }
