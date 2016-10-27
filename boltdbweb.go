@@ -16,16 +16,36 @@ import (
 
 var (
 	db         *bolt.DB
-	dbName     = flag.String("db-name", "", "Name of the database")
-	port       = flag.String("port", "8080", "Port for the web-ui")
-	staticPath = flag.String("static-path", ".", "Path for the static content")
+	dbName     string
+	port       string 
+	staticPath string
 )
+
+func init() {
+	// Read the static path from the environment if set.
+	staticPath = os.Getenv("BOLTDBWEB_STATIC_PATH")
+	if staticPath == "" {
+		staticPath = "."
+	}
+	dbName = os.Getenv("BOLTDBWEB_DB_NAME")
+	port = os.Getenv("BOLTDBWEB_PORT")
+	if port == "" {
+		port = "8080"
+	}
+	flag.StringVar(&dbName, "db-name", dbName, "Name of the database")
+	flag.StringVar(&port, "port", port, "Port for the web-ui")
+	flag.StringVar(&staticPath, "static-path", staticPath, "Path for the static content")
+}
 
 func main() {
 	flag.Parse()
+	args := flag.Args()
 
 	fmt.Print(" ")
 	log.Info("starting boltdb-browser..")
+	if dbName == nil && len(args) > 0 {
+		dbName = args[0]
+	}
 
 	if dbName == nil {
 
