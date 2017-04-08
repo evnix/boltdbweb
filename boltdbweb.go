@@ -16,6 +16,7 @@ import (
 	"fmt"
 	"os"
 	"path"
+	"time"
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/boltdb/bolt"
@@ -90,7 +91,7 @@ func main() {
 	log.Info("starting boltdb-browser..")
 
 	var err error
-	db, err = bolt.Open(dbName, 0600, nil)
+	db, err = bolt.Open(dbName, 0600, &bolt.Options{Timeout: 2 * time.Second})
 	boltbrowserweb.Db = db
 
 	if err != nil {
