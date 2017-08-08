@@ -1,8 +1,9 @@
-package boltbrowserweb
+package web
 
 import (
 	"bytes"
 	"fmt"
+
 	"github.com/boltdb/bolt"
 	"github.com/gin-gonic/gin"
 )

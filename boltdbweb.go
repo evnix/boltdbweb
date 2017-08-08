@@ -7,18 +7,16 @@
 package main
 
 import (
-	"github.com/evnix/boltdbweb/web"
-	"github.com/gin-gonic/gin"
-)
-
-import (
 	"flag"
 	"fmt"
+	"log"
 	"os"
 	"path"
 	"time"
 
-	log "github.com/Sirupsen/logrus"
+	"github.com/gin-gonic/gin"
+	"github.com/nimezhu/boltdbweb/web"
+
 	"github.com/boltdb/bolt"
 )
 
@@ -47,11 +45,13 @@ func init() {
 	// Read the static path from the environment if set.
 	dbName = os.Getenv("BOLTDBWEB_DB_NAME")
 	port = os.Getenv("BOLTDBWEB_PORT")
-	staticPath = os.Getenv("BOLTDBWEB_STATIC_PATH")
-	// Use default values if environment not set.
-	if staticPath == "" {
-		staticPath = "."
-	}
+	/*
+		staticPath = os.Getenv("BOLTDBWEB_STATIC_PATH")
+		// Use default values if environment not set.
+		if staticPath == "" {
+			staticPath = "."
+		}
+	*/
 	if port == "" {
 		port = "8080"
 	}
@@ -62,8 +62,8 @@ func init() {
 	flag.StringVar(&dbName, "db-name", dbName, "Name of the database")
 	flag.StringVar(&port, "p", port, "Port for the web-ui")
 	flag.StringVar(&port, "port", port, "Port for the web-ui")
-	flag.StringVar(&staticPath, "s", staticPath, "Path for the static content")
-	flag.StringVar(&staticPath, "static-path", staticPath, "Path for the static content")
+	//flag.StringVar(&staticPath, "s", staticPath, "Path for the static content")
+	//flag.StringVar(&staticPath, "static-path", staticPath, "Path for the static content")
 }
 
 func main() {
@@ -88,11 +88,11 @@ func main() {
 	}
 
 	fmt.Print(" ")
-	log.Info("starting boltdb-browser..")
+	log.Println("starting boltdb-browser..")
 
 	var err error
 	db, err = bolt.Open(dbName, 0600, &bolt.Options{Timeout: 2 * time.Second})
-	boltbrowserweb.Db = db
+	web.Db = db
 
 	if err != nil {
 		fmt.Println(err)
@@ -107,17 +107,36 @@ func main() {
 		})
 	})
 
-	r.GET("/", boltbrowserweb.Index)
+	r.GET("/", web.Index)
 
-	r.GET("/buckets", boltbrowserweb.Buckets)
-	r.POST("/createBucket", boltbrowserweb.CreateBucket)
-	r.POST("/put", boltbrowserweb.Put)
-	r.POST("/get", boltbrowserweb.Get)
-	r.POST("/deleteKey", boltbrowserweb.DeleteKey)
-	r.POST("/deleteBucket", boltbrowserweb.DeleteBucket)
-	r.POST("/prefixScan", boltbrowserweb.PrefixScan)
+	r.GET("/buckets", web.Buckets)
+	r.POST("/createBucket", web.CreateBucket)
+	r.POST("/put", web.Put)
+	r.POST("/get", web.Get)
+	r.POST("/deleteKey", web.DeleteKey)
+	r.POST("/deleteBucket", web.DeleteBucket)
+	r.POST("/prefixScan", web.PrefixScan)
 
-	r.Static("/web", staticPath+"/web")
+	// r.Static("/web", staticPath+"/web")
+	r.GET("/web/*page", func(c *gin.Context) {
+		page := c.Param("page")
+		fmt.Println(page[1:])
 
+		b, ok := web.Asset(page[1:])
+		if ok == nil {
+			//fmt.Println(string(b))
+			ext := path.Ext(page[1:])
+			if ext == ".css" {
+				c.Writer.Header().Add("Content-Type", "text/css")
+			}
+			if ext == ".js" {
+				c.Writer.Header().Add("Content-Type", "text/JavaScript")
+			}
+			c.Writer.Write(b)
+		} else {
+			fmt.Println(ok)
+			c.Writer.WriteString("NOT FOUND")
+		}
+	})
 	r.Run(":" + port)
 }
