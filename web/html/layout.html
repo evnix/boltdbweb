@@ -1,242 +1,243 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>BoltDB-Web</title>
-<link rel="stylesheet" href="/web/css/uikit.min.css" />
-<link rel="stylesheet" href="/web/css/uikit.almost-flat.min.css" />
-<script src="/web/js//jquery-2.2.3.min.js"></script>
-<script src="/web/js/uikit.min.js"></script>
-<script src="/web/js/navigo.min.js"></script>
-<script type="text/javascript" src="/web/js/4.0.5_handlebars.min.js"></script>
-    </head>
-    <body>
+
+<head>
+  <title>BoltDB-Web</title>
+  <link rel="stylesheet" href="/web/css/uikit.min.css" />
+  <link rel="stylesheet" href="/web/css/uikit.almost-flat.min.css" />
+  <script src="/web/js/jquery-2.2.3.min.js"></script>
+  <script src="/web/js/uikit.min.js"></script>
+  <script src="/web/js/navigo.min.js"></script>
+  <script type="text/javascript" src="/web/js/4.0.5_handlebars.min.js"></script>
+</head>
+
+<body>
 
 
-        <div class="uk-container uk-container-center uk-margin-top uk-margin-small-bottom">
-            <nav class="uk-navbar uk-margin-large-bottom">
-                <a class="uk-navbar-brand uk-hidden-small" href="/">BoltDB-Web</a>
-                <ul class="uk-navbar-nav uk-hidden-small">
-                    <li>
-                        <a href="/">Form</a>
-                    </li>
-                    <li>
-                        <a href="#/buckets">Buckets</a>
-                    </li>
-                    <li>
-                        <a href="#/prefixScan">Prefix Scan</a>
-                    </li>
-            
-                </ul>
-                <a href="#offcanvas" class="uk-navbar-toggle uk-visible-small" data-uk-offcanvas></a>
-                <div class="uk-navbar-brand uk-navbar-center uk-visible-small">Brand</div>
-            </nav>
-          </div>
+  <div class="uk-container uk-container-center uk-margin-top uk-margin-small-bottom">
+    <nav class="uk-navbar uk-margin-large-bottom">
+      <a class="uk-navbar-brand uk-hidden-small" href="/">BoltDB-Web</a>
+      <ul class="uk-navbar-nav uk-hidden-small">
+        <li>
+          <a href="/">Form</a>
+        </li>
+        <li>
+          <a href="#/buckets">Buckets</a>
+        </li>
+        <li>
+          <a href="#/prefixScan">Prefix Scan</a>
+        </li>
 
-
-
-           
-
-
-            <div class="uk-vertical-align uk-text-center uk-height-1-1" id="pg1">
-            <div class="uk-vertical-align-middle" style="width: 600px;"   id="dfata">
-                <form class="uk-panel uk-panel-box uk-form">
-                    <div class="uk-form-row">
-                        <input class="uk-width-1-1 uk-form-large" type="text" id="bucket" placeholder="Bucket name">
-                    </div>
-                    <div class="uk-form-row">
-                        <input class="uk-width-1-1 uk-form-large" type="text" id="key" placeholder="Key">
-                    </div>
-                    <div class="uk-form-row">
-                        <textarea class="uk-width-1-1 uk-form-large" type="text" id="value" placeholder="value"></textarea>
-                    </div>
-                    <div class="uk-form-row">
-                        <a class="uk-width-1-1 uk-button uk-button-primary uk-button-small" onclick="get()">Get</a>
-                    </div>
-                    <div class="uk-form-row">
-                        <a class="uk-width-1-1 uk-button uk-button-primary uk-button-small" onclick="put()">Put</a>
-                    </div>
-                    <div class="uk-form-row">
-                        <a class="uk-width-1-1 uk-button uk-button-primary uk-button-small" onclick="deleteKey()">Delete key</a>
-                    </div>
-                    <div class="uk-form-row">
-                        <a class="uk-width-1-1 uk-button uk-button-primary uk-button-small" onclick="deleteBucket()">Delete Bucket</a>
-                    </div>
-                    
-                </form>
-        
-            </div>
-            </div>
+      </ul>
+      <a href="#offcanvas" class="uk-navbar-toggle uk-visible-small" data-uk-offcanvas></a>
+      <div class="uk-navbar-brand uk-navbar-center uk-visible-small">Brand</div>
+    </nav>
+  </div>
 
 
 
-            <div class="uk-vertical-align uk-text-center uk-height-1-1" id="pg2">
-            <div class="uk-vertical-align-middle" style="width: 250px;text-align:left"   id="data">
-
-    
-            </div>
-            </div>
 
 
 
-            <div class="uk-vertical-align uk-text-center  " id="pg3">
-                <div class="uk-vertical-align-middle uk-grid" style="width: 600px;text-align:left"   id="d">
-                 
-                    
-                        <div class="uk-width-1-3"> <input class="uk-form-small" type="text" id="pbucket" placeholder="Bucket name"></div>
-                        <div class="uk-width-1-3">  <input class="uk-form-small" type="text" id="pkey" placeholder="Key Prefix"></div>
-                        <div class="uk-width-1-3">  <a class="uk-width-1-1 uk-button uk-button-primary uk-button-large" onclick="prefixScan()">List</a></div>
-                   
-                  
-                </div>
+  <div class="uk-vertical-align uk-text-center uk-height-1-1" id="pg1">
+    <div class="uk-vertical-align-middle" style="width: 600px;" id="dfata">
+      <form class="uk-panel uk-panel-box uk-form">
+        <div class="uk-form-row">
+          <input class="uk-width-1-1 uk-form-large" type="text" id="bucket" placeholder="Bucket name">
+        </div>
+        <div class="uk-form-row">
+          <input class="uk-width-1-1 uk-form-large" type="text" id="key" placeholder="Key">
+        </div>
+        <div class="uk-form-row">
+          <textarea class="uk-width-1-1 uk-form-large" type="text" id="value" placeholder="value"></textarea>
+        </div>
+        <div class="uk-form-row">
+          <a class="uk-width-1-1 uk-button uk-button-primary uk-button-small" onclick="get()">Get</a>
+        </div>
+        <div class="uk-form-row">
+          <a class="uk-width-1-1 uk-button uk-button-primary uk-button-small" onclick="put()">Put</a>
+        </div>
+        <div class="uk-form-row">
+          <a class="uk-width-1-1 uk-button uk-button-primary uk-button-small" onclick="deleteKey()">Delete key</a>
+        </div>
+        <div class="uk-form-row">
+          <a class="uk-width-1-1 uk-button uk-button-primary uk-button-small" onclick="deleteBucket()">Delete Bucket</a>
+        </div>
 
-                <br/><br/>
-                <div class="uk-vertical-align-middle" style="width: 500px;text-align:left"   id="pfs">
+      </form>
 
-        
-                </div>
-            </div>
-
-
-            <br>
-            <br>
-
-            <div class="uk-vertical-align uk-text-center uk-height-1-1">
-            <div class="uk-vertical-align-middle" style="height:400px;width:500px; background:#f3f3f3;overflow: scroll; text-align:left"   id="log">
-            Log: <br/>[0999] Made in Dublin with lots of &#10084; by <a href="https://ie.linkedin.com/in/avinashdsilva" target="_blank">Avi</a>
-    
-            </div>
-            </div>
-
-            <br/>
-            <br/>
+    </div>
+  </div>
 
 
-    </body>
+
+  <div class="uk-vertical-align uk-text-center uk-height-1-1" id="pg2">
+    <div class="uk-vertical-align-middle" style="width: 250px;text-align:left" id="data">
+
+
+    </div>
+  </div>
+
+
+
+  <div class="uk-vertical-align uk-text-center  " id="pg3">
+    <div class="uk-vertical-align-middle uk-grid" style="width: 600px;text-align:left" id="d">
+
+
+      <div class="uk-width-1-3"> <input class="uk-form-small" type="text" id="pbucket" placeholder="Bucket name"></div>
+      <div class="uk-width-1-3"> <input class="uk-form-small" type="text" id="pkey" placeholder="Key Prefix"></div>
+      <div class="uk-width-1-3"> <a class="uk-width-1-1 uk-button uk-button-primary uk-button-large" onclick="prefixScan()">List</a></div>
+
+
+    </div>
+
+    <br/><br/>
+    <div class="uk-vertical-align-middle" style="width: 500px;text-align:left" id="pfs">
+
+
+    </div>
+  </div>
+
+
+  <br>
+  <br>
+
+  <div class="uk-vertical-align uk-text-center uk-height-1-1">
+    <div class="uk-vertical-align-middle" style="height:400px;width:500px; background:#f3f3f3;overflow: scroll; text-align:left" id="log">
+      Log: <br/>[0999] Made in Dublin with lots of &#10084; by <a href="https://ie.linkedin.com/in/avinashdsilva" target="_blank">Avi</a>
+
+    </div>
+  </div>
+
+  <br/>
+  <br/>
+
+
+</body>
 
 
 <script id="template" type="x-tmpl-mustache">
-    <table class="uk-table">
-    
+  <table class="uk-table">
+
     <thead>
-        <tr>
-            <th>Bucket Names</th>
-        </tr>
+      <tr>
+        <th>Bucket Names</th>
+      </tr>
     </thead>
 
     <tbody>
-    {{#list}}
-        <tr>
-            <td> <a onclick="doPrefixScan('{{.}}')">{{.}}</a> </td>
-        </tr>
-    {{/list}}
+      {{#list}}
+      <tr>
+        <td> <a onclick="doPrefixScan('{{.}}')">{{.}}</a> </td>
+      </tr>
+      {{/list}}
     </tbody>
-</table>
+  </table>
 </script>
 
 
 <script id="exploretpl" type="x-tmpl-mustache">
-    <table class="uk-table">
-    
+  <table class="uk-table">
+
     <thead>
-        <tr>
-            <th>Key</th>
-            <th>Value</th>
-            <th>Edit</th>
-            <th>Delete</th>
-        </tr>
+      <tr>
+        <th>Key</th>
+        <th>Value</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
     </thead>
 
     <tbody>
-    {{#each list}}
-        <tr>
-            <td> {{@key}} </td> 
-            <td> {{this}}</td>
-            <td> <a onclick="doEdit('{{@key}}')">[Edit]</a> </td>
-            <td> <a onclick="doDelete('{{@key}}')">[x]</a> </td>
-        </tr>
-   {{/each}}
+      {{#each list}}
+      <tr>
+        <td> {{@key}} </td>
+        <td> {{this}}</td>
+        <td> <a onclick="doEdit('{{@key}}')">[Edit]</a> </td>
+        <td> <a onclick="doDelete('{{@key}}')">[x]</a> </td>
+      </tr>
+      {{/each}}
     </tbody>
-</table>
+  </table>
 </script>
 
 <script>
+  logid = 1000
+  var router = new Navigo();
 
-logid=1000
-var router = new Navigo();
+  router.on('/buckets', function() {
 
-router.on('/buckets', function () {
- 
     loadBucketTable();
     $('#pg1').hide();
     $('#pg3').hide();
     $('#pg2').show()
 
-});
+  });
 
 
 
-router.on('/prefixScan', function () {
- 
+  router.on('/prefixScan', function() {
+
     $('#pg1').hide();
     $('#pg2').hide();
     $('#pg3').show()
 
-});
+  });
 
 
-router.on('/', function () {
- 
+  router.on('/', function() {
+
     $('#pg2').hide();
     $('#pg3').hide();
     $('#pg1').show()
 
-});
+  });
 
-router.on(function() {
-  // ... all the urls end here
-      $('#pg2').hide();
-      $('#pg3').hide();
-    
-  console.log("default route:no other routes matched.")
-});
+  router.on(function() {
+    // ... all the urls end here
+    $('#pg2').hide();
+    $('#pg3').hide();
 
-router.resolve();
+    console.log("default route:no other routes matched.")
+  });
+
+  router.resolve();
 
 
-function doDelete(key){
+  function doDelete(key) {
 
 
     var r = confirm("Delete?");
 
     if (r == true) {
-            
-            b = $('#pbucket').val();
-            deleteKeyReq(b,key);
-            window.setTimeout(prefixScan, 1000);
-            
+
+      b = $('#pbucket').val();
+      deleteKeyReq(b, key);
+      window.setTimeout(prefixScan, 1000);
+
     }
 
 
 
 
-}
+  }
 
 
-function doEdit(key){
+  function doEdit(key) {
 
     b = $('#pbucket').val();
-    getRequest(b,key);
+    getRequest(b, key);
 
     $('#bucket').val(b);
     $('#key').val(key);
     router.navigate('#/');
 
 
-}
+  }
 
 
 
-function doPrefixScan(bucket){
+  function doPrefixScan(bucket) {
 
     $('#pbucket').val(bucket);
     $('#pkey').val("");
@@ -245,124 +246,142 @@ function doPrefixScan(bucket){
 
     router.navigate('#/prefixScan');
 
-}
+  }
 
-function log(text){
+  function log(text) {
 
     console.log(text)
-    $('#log').append("<br/>["+logid+"] "+ JSON.stringify(text))
+    $('#log').append("<br/>[" + logid + "] " + JSON.stringify(text))
 
     logid++
     $('#log').scrollTop($('#log')[0].scrollHeight - $('#log')[0].clientHeight);
 
-}
+  }
 
 
-function get(){
+  function get() {
 
-    getRequest($('#bucket').val(),$('#key').val());
+    getRequest($('#bucket').val(), $('#key').val());
 
 
-}
+  }
 
-function getRequest(bucket,key){
+  function getRequest(bucket, key) {
 
-  $.post("/get",{bucket:bucket,key:key},function(data){
+    $.post("/get", {
+      bucket: bucket,
+      key: key
+    }, function(data) {
 
-  
-    log(data)
 
-    if(data[0]=="ok"){
+      log(data)
+
+      if (data[0] == "ok") {
 
         $('#value').val(data[1])
-    }
-
-  });
-
-}
-
-function deleteBucket(){
-
-
-  $.post("/deleteBucket",{bucket:$('#bucket').val()},function(data){
-
-  
-    log(data)
-
-  });
-
-}
-
-function deleteKey(){
-
-
-    deleteKeyReq($('#bucket').val(),$('#key').val());
-
-}
-
-
-function deleteKeyReq(bucket,key){
-
-  $.post("/deleteKey",{bucket:bucket,key:key},function(data){
-
-  
-    log(data)
-
-  });
-
-}
-
-function put(){
-
-      $.post("/put",{bucket:$('#bucket').val(),key:$('#key').val(),value:$('#value').val()},function(data){
-
-  
-        log(data)
+      }
 
     });
 
-}
+  }
+
+  function deleteBucket() {
 
 
-function prefixScan() {
-
-  $('#pfs').html("")
-  var source = $('#exploretpl').html();
-var template = Handlebars.compile(source);
-
-  $.post("/prefixScan",{bucket:$('#pbucket').val(),key:$('#pkey').val()},function(data){
-
-    log(data)
-    //var rendered = Mustache.render(template, {list: data.M});
-    var html    = template({list: data.M});
-    $('#pfs').html(html)
-
-  });
-  
-  
-}
+    $.post("/deleteBucket", {
+      bucket: $('#bucket').val()
+    }, function(data) {
 
 
-function loadBucketTable() {
+      log(data)
+
+    });
+
+  }
+
+  function deleteKey() {
+
+
+    deleteKeyReq($('#bucket').val(), $('#key').val());
+
+  }
+
+
+  function deleteKeyReq(bucket, key) {
+
+    $.post("/deleteKey", {
+      bucket: bucket,
+      key: key
+    }, function(data) {
+
+
+      log(data)
+
+    });
+
+  }
+
+  function put() {
+
+    $.post("/put", {
+      bucket: $('#bucket').val(),
+      key: $('#key').val(),
+      value: $('#value').val()
+    }, function(data) {
+
+
+      log(data)
+
+    });
+
+  }
+
+
+  function prefixScan() {
+
+    $('#pfs').html("")
+    var source = $('#exploretpl').html();
+    var template = Handlebars.compile(source);
+
+    $.post("/prefixScan", {
+      bucket: $('#pbucket').val(),
+      key: $('#pkey').val()
+    }, function(data) {
+
+      log(data)
+      //var rendered = Mustache.render(template, {list: data.M});
+      var html = template({
+        list: data.M
+      });
+      $('#pfs').html(html)
+
+    });
+
+
+  }
+
+
+  function loadBucketTable() {
     var source = $('#template').html();
     var template = Handlebars.compile(source);
 
-  $.get("/buckets",{},function(data){
+    $.get("/buckets", {}, function(data) {
 
-  
-    var html    = template({list: data});
-    $('#data').html(html)
 
-  });
-  
-  
-}
+      var html = template({
+        list: data
+      });
+      $('#data').html(html)
 
-$( document ).ready(function() {
+    });
+
+
+  }
+
+  $(document).ready(function() {
     loadBucketTable();
-  // Handler for .ready() called.
-});
-
+    // Handler for .ready() called.
+  });
 </script>
 
 </html>
