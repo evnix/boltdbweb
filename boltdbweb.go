@@ -6,10 +6,7 @@
 //
 package main
 
-import (
-	"github.com/evnix/boltdbweb/web"
-	"github.com/gin-gonic/gin"
-)
+//go:generate go-bindata-assetfs -o web_static.go web/...
 
 import (
 	"flag"
@@ -17,6 +14,9 @@ import (
 	"os"
 	"path"
 	"time"
+
+	"github.com/evnix/boltdbweb/web"
+	"github.com/gin-gonic/gin"
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/boltdb/bolt"
@@ -47,11 +47,7 @@ func init() {
 	// Read the static path from the environment if set.
 	dbName = os.Getenv("BOLTDBWEB_DB_NAME")
 	port = os.Getenv("BOLTDBWEB_PORT")
-	staticPath = os.Getenv("BOLTDBWEB_STATIC_PATH")
 	// Use default values if environment not set.
-	if staticPath == "" {
-		staticPath = "."
-	}
 	if port == "" {
 		port = "8080"
 	}
@@ -62,8 +58,6 @@ func init() {
 	flag.StringVar(&dbName, "db-name", dbName, "Name of the database")
 	flag.StringVar(&port, "p", port, "Port for the web-ui")
 	flag.StringVar(&port, "port", port, "Port for the web-ui")
-	flag.StringVar(&staticPath, "s", staticPath, "Path for the static content")
-	flag.StringVar(&staticPath, "static-path", staticPath, "Path for the static content")
 }
 
 func main() {
@@ -117,7 +111,7 @@ func main() {
 	r.POST("/deleteBucket", boltbrowserweb.DeleteBucket)
 	r.POST("/prefixScan", boltbrowserweb.PrefixScan)
 
-	r.Static("/web", staticPath+"/web")
+	r.StaticFS("/web", assetFS())
 
 	r.Run(":" + port)
 }

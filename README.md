@@ -4,16 +4,7 @@ A simple web based boltdb GUI Admin panel.
 
 ##### Installation
 ```
-go get github.com/gin-gonic/gin
-go get github.com/boltdb/bolt/...
 go get github.com/evnix/boltdbweb
-cd $GOPATH/src/github.com/evnix/boltdbweb
-go build boltdbweb.go
-```
-
-Optional
-```
-sudo mv boltdbweb /usr/bin 
 ```
 
 ##### Usage
