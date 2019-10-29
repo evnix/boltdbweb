@@ -18,7 +18,7 @@ import (
 	"github.com/evnix/boltdbweb/web"
 	"github.com/gin-gonic/gin"
 
-	log "github.com/Sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 	"github.com/boltdb/bolt"
 )
 
