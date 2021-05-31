@@ -1,4 +1,3 @@
-//
 // boltdbweb is a webserver base GUI for interacting with BoltDB databases.
 //
 // For authorship see https://github.com/evnix/boltdbweb
@@ -6,23 +5,29 @@
 //
 package main
 
-//go:generate go-bindata-assetfs -o web_static.go web/...
-
 import (
+	"boltdbweb/boltbrowserweb"
+	"embed"
 	"flag"
 	"fmt"
+	"net/http"
 	"os"
 	"path"
 	"time"
 
-	"github.com/evnix/boltdbweb/web"
 	"github.com/gin-gonic/gin"
 
-	log "github.com/sirupsen/logrus"
 	"github.com/boltdb/bolt"
+	log "github.com/sirupsen/logrus"
 )
 
-const version = "v0.0.0"
+const version = "v0.0.1"
+
+//go:embed web/html/layout.html
+//go:embed web/css/*.css
+//go:embed web/fonts/*
+//go:embed web/js/*.js
+var staticFS embed.FS
 
 var (
 	showHelp   bool
@@ -95,13 +100,8 @@ func main() {
 
 	// OK, we should be ready to define/run web server safely.
 	r := gin.Default()
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
-	})
-
 	r.GET("/", boltbrowserweb.Index)
+	r.StaticFS("/static", http.FS(staticFS))
 
 	r.GET("/buckets", boltbrowserweb.Buckets)
 	r.POST("/createBucket", boltbrowserweb.CreateBucket)
@@ -110,8 +110,6 @@ func main() {
 	r.POST("/deleteKey", boltbrowserweb.DeleteKey)
 	r.POST("/deleteBucket", boltbrowserweb.DeleteBucket)
 	r.POST("/prefixScan", boltbrowserweb.PrefixScan)
-
-	r.StaticFS("/web", assetFS())
 
 	r.Run(":" + port)
 }
