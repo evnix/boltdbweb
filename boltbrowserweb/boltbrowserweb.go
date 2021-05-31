@@ -3,6 +3,7 @@ package boltbrowserweb
 import (
 	"bytes"
 	"fmt"
+
 	"github.com/boltdb/bolt"
 	"github.com/gin-gonic/gin"
 )
@@ -11,7 +12,7 @@ var Db *bolt.DB
 
 func Index(c *gin.Context) {
 
-	c.Redirect(301, "/web/html/layout.html")
+	c.Redirect(301, "/static/web/html/layout.html")
 
 }
 
@@ -63,7 +64,6 @@ func DeleteKey(c *gin.Context) {
 
 	Db.Update(func(tx *bolt.Tx) error {
 		b, err := tx.CreateBucketIfNotExists([]byte(c.PostForm("bucket")))
-		b = b
 		if err != nil {
 
 			c.String(200, "error no such bucket | n")
