@@ -1,0 +1,93 @@
+# .goreleaser.yml
+builds: 
+  -
+    binary: boltdbweb
+brews:
+  -
+    name: boltdbweb
+    # GitHub/GitLab repository to push the formula to
+    # Gitea is not supported yet, but the support coming
+    tap:
+      owner: isan-rivkin
+      name: homebrew-toolbox
+      token: "{{ .Env.GORELEASER_GITHUB_TOKEN }}"
+    
+    # Template for the url which is determined by the given Token (github or gitlab)
+    # Default for github is "https://github.com/<repo_owner>/<repo_name>/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
+    # url_template: "http://github.mycompany.com/foo/bar/releases/{{ .Tag }}/{{ .ArtifactName }}"
+    
+    # Allows you to set a custom download strategy. Note that you'll need
+    # to implement the strategy and add it to your tap repository.
+    # Example: https://docs.brew.sh/Formula-Cookbook#specifying-the-download-strategy-explicitly
+    # Default is empty.
+    #download_strategy: CurlDownloadStrategy.
+
+    # Allows you to add a custom require_relative at the top of the formula template
+    # Default is empty
+    #custom_require: custom_download_strategy
+
+    # Git author used to commit to the repository.
+    # Defaults are shown.
+    # commit_author:
+    #   name: goreleaserbot
+    #   email: goreleaser@carlosbecker.com
+
+    # Folder inside the repository to put the formula.
+    # Default is the root folder.
+    #folder: Formula
+
+    # Caveats for the user of your binary.
+    # Default is empty.
+    #caveats: "How to use this binary"
+
+    # Your app's homepage.
+    # Default is empty.
+    homepage: "https://github.com/Isan-Rivkin/boltdbweb"
+
+    # Your app's description.
+    # Default is empty.
+    description: "Bolt DB Web UI"
+
+    # Setting this will prevent goreleaser to actually try to commit the updated
+    # formula - instead, the formula file will be stored on the dist folder only,
+    # leaving the responsibility of publishing it to the user.
+    # If set to auto, the release will not be uploaded to the homebrew tap
+    # in case there is an indicator for prerelease in the tag e.g. v1.0.0-rc1
+    # Default is false.
+    #skip_upload: true
+
+    # Custom block for brew.
+    # Can be used to specify alternate downloads for devel or head releases.
+    # Default is empty.
+    # custom_block: |
+    #   head "https://github.com/some/package.git"
+    #   ...
+
+    # Packages your package depends on.
+    dependencies:
+      - name: git
+      # - name: zsh
+      #   type: optional
+
+    # Packages that conflict with your package.
+    # conflicts:
+    #   - svn
+    #   - bash
+
+    # Specify for packages that run as a service.
+    # Default is empty.
+    # plist: |
+    #   <?xml version="1.0" encoding="UTF-8"?>
+    #   ...
+
+    # So you can `brew test` your formula.
+    # Default is empty.
+    # test: |
+    #   system "#{bin}/program --version"
+    #   ...
+
+    # Custom install script for brew.
+    # Default is 'bin.install "program"'.
+    # install: |
+    #   bin.install "program"
+    #   ...
